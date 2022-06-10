@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>students</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .myTable {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<h1>All students</h1>
+<form th:action="@{/api/students}" method="get" th:object="${search}">
+    <input type="search" th:field="*{search}">
+    <a th:href="@{'/api/students?search=' + ${search.search}}">
+        <button>search</button>
+    </a>
+</form>
+<div class="myTable">
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th>studentId</th>
+            <th>name</th>
+            <th>email</th>
+            <th>update</th>
+            <th>delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${studentList}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.email}"></td>
+            <td>
+                <a th:href="@{/api/students/show/update/page/{studentId}(studentId=${student.id})}">
+                    <button>update</button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/api/students/delete/{studentId}(studentId=${student.id})}">
+                    <button>delete</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<div>
+    <a th:href="@{/api/students/show/save/page}">
+        <button>save</button>
+    </a>
+</div>
+</body>
+</html>
